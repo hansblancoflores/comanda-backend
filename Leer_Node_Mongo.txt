@@ -1,0 +1,166 @@
+# GUÍA COMPLETA: Node.js + MongoDB Atlas desde cero
+
+#########################################################
+# 1. INSTALAR NODE.JS Y NPM
+#########################################################
+
+# - Ve a https://nodejs.org/
+# - Descarga la versión LTS (recomendada para la mayoría de los usuarios).
+# - Ejecuta el instalador y sigue los pasos.
+# - Al terminar, abre el CMD (ver siguiente sección) y verifica la instalación:
+#
+#   node -v
+#   npm -v
+#
+# Deberías ver los números de versión de Node y npm.
+
+#########################################################
+# 2. ABRIR LA TERMINAL (CMD) Y NAVEGAR A TU CARPETA
+#########################################################
+
+# - Pulsa la tecla Windows, escribe "cmd" y presiona Enter.
+# - Para cambiar al disco D, escribe:
+#
+#   D:
+#
+# - Para entrar a tu carpeta de proyecto, escribe:
+#
+#   cd \Apps\ChickenFlores\comanda
+#
+# - Ahora tu terminal debe mostrar:
+#
+#   D:\Apps\ChickenFlores\comanda>
+#
+# (Esto es el símbolo del sistema de Windows, conocido como CMD).
+
+#########################################################
+# 3. INICIALIZAR EL PROYECTO NODE.JS
+#########################################################
+
+# Ejecuta:
+npm init -y
+
+# Esto crea el archivo package.json con la configuración básica.
+
+#########################################################
+# 4. INSTALAR DEPENDENCIAS NECESARIAS
+#########################################################
+
+# Ejecuta:
+npm install express mongoose cors dotenv
+
+# Estas librerías permiten crear el servidor, conectar a MongoDB y gestionar variables de entorno.
+
+#########################################################
+# 5. CREAR EL ARCHIVO DE VARIABLES DE ENTORNO (.env)
+#########################################################
+
+# - En el Explorador de archivos, ve a D:\Apps\ChickenFlores\comanda
+# - Crea un archivo llamado exactamente: .env
+# - El contenido debe ser (sin espacios, sin comillas):
+#
+#   MONGO_URL=mongodb+srv://USUARIO:CLAVE@cluster0.owffiaw.mongodb.net/chickenflores?retryWrites=true&w=majority
+#
+# IMPORTANTE:
+# - Si tu contraseña tiene el carácter @, debes reemplazar cada @ por %40.
+#   Ejemplo: Si tu contraseña es Hh945050@@@@ debes poner Hh945050%40%40%40%40
+#   en la URL.
+# - Otros caracteres especiales también deben codificarse (consulta "URL encode" online).
+
+#########################################################
+# 6. CREAR LA CARPETA DE CONFIGURACIÓN Y EL ARCHIVO DE CONEXIÓN
+#########################################################
+
+# En el CMD, ejecuta:
+mkdir config
+
+# Luego, en la carpeta config, crea un archivo llamado db.js con este contenido:
+
+/*
+ * config/db.js
+ * Conexión a MongoDB Atlas usando Mongoose.
+ */
+const mongoose = require('mongoose');
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URL); // Opciones extra ya no son necesarias
+    console.log('✅ MongoDB Connected');
+  } catch (error) {
+    console.error('❌ MongoDB connection error:', error.message);
+    process.exit(1);
+  }
+};
+
+module.exports = connectDB;
+
+#########################################################
+# 7. CREAR EL ARCHIVO PRINCIPAL DEL SERVIDOR
+#########################################################
+
+# En la carpeta principal (comanda), crea server.js con este contenido:
+
+/*
+ * server.js
+ * Servidor principal Express + conexión a MongoDB.
+ */
+require('dotenv').config(); // Cargar variables de entorno
+const express = require('express');
+const cors = require('cors');
+const connectDB = require('./config/db');
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+// Conectar a MongoDB
+connectDB();
+
+app.get('/', (req, res) => {
+  res.send('API funcionando correctamente');
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`🚀 Servidor corriendo en puerto ${PORT}`));
+
+#########################################################
+# 8. INICIAR EL SERVIDOR Y PROBAR LA CONEXIÓN
+#########################################################
+
+# - En el CMD, asegúrate de estar en D:\Apps\ChickenFlores\comanda
+# - Ejecuta:
+node server.js
+
+# - Si todo está bien, verás:
+#   🚀 Servidor corriendo en puerto 5000
+#   ✅ MongoDB Connected
+#
+# - Abre tu navegador y visita http://localhost:5000/
+#   Debes ver: API funcionando correctamente
+
+#########################################################
+# 9. NOTAS Y RECOMENDACIONES
+#########################################################
+
+# - Si ves errores de conexión, verifica:
+#   - El archivo .env está en la carpeta correcta y bien nombrado.
+#   - La variable se llama exactamente MONGO_URL.
+#   - La contraseña está correctamente codificada si tiene caracteres especiales.
+#   - El servidor se reinicia después de cualquier cambio en .env.
+#
+# - Si ves advertencias sobre "useNewUrlParser" o "useUnifiedTopology", simplemente elimina esas opciones del código, ya no son necesarias en Mongoose moderno.
+#
+# - Para cualquier otro error, revisa los mensajes en la terminal y asegúrate de que todos los nombres de archivos y rutas sean correctos.
+
+#########################################################
+# 10. REFERENCIAS
+#########################################################
+
+# - Documentación oficial de Node.js: https://nodejs.org/
+# - Documentación oficial de MongoDB Atlas: https://www.mongodb.com/docs/atlas/
+# - Documentación oficial de Mongoose: https://mongoosejs.com/docs/
+# - Documentación oficial de dotenv: https://www.npmjs.com/package/dotenv
+
+#########################################################
+# FIN DE LA GUÍA
+#########################################################
