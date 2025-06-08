@@ -1,0 +1,109 @@
+#########################################################
+# GUÍA DETALLADA: SUBIR UN PROYECTO NODE.JS A GITHUB DESDE CERO
+# Proyecto ejemplo: ChickenFlores (Node.js + MongoDB Atlas)
+#########################################################
+
+# 1. INSTALAR NODE.JS Y NPM
+# - Descargar desde https://nodejs.org/
+# - Instalar en Windows dejando todas las opciones por defecto.
+# - Verificar instalación en CMD:
+#     node -v
+#     npm -v
+
+# 2. PREPARAR EL PROYECTO EN WINDOWS
+# - Crear carpeta del proyecto, ejemplo: D:\Apps\ChickenFlores\comanda
+# - Dentro de esa carpeta deben estar tus archivos principales:
+#     .env
+#     package.json
+#     package-lock.json
+#     server.js
+#   (y cualquier otra carpeta como config, models, routes, etc.)
+
+# 3. INSTALAR GIT EN WINDOWS
+# - Descargar desde https://git-scm.com/downloads
+# - Instalar dejando todas las opciones por defecto.
+
+# 4. CONFIGURAR GIT POR PRIMERA VEZ
+# - Abre la terminal CMD (Windows + R, escribe "cmd" y Enter).
+# - Configura tu nombre y correo globalmente (solo la primera vez):
+      git config --global user.name "Tu Nombre Completo"
+      git config --global user.email "tunombre@correo.com"
+# - Verifica con:
+      git config --list
+#   Debes ver user.name y user.email correctamente.
+
+# 5. INICIALIZAR GIT EN TU PROYECTO
+# - Navega a la carpeta del proyecto:
+      D:
+      cd \Apps\ChickenFlores\comanda
+# - Inicializa Git:
+      git init
+
+# 6. PREPARAR ARCHIVOS PARA GIT
+# - Añade todos los archivos al área de preparación:
+      git add .
+# - Haz tu primer commit:
+      git commit -m "Primer commit"
+#   Si aquí aparece el error:
+#      Author identity unknown
+#      fatal: unable to auto-detect email address
+#   Solución: configura tu nombre y correo con los comandos del paso 4 y repite el commit.
+
+# 7. CREAR UN REPOSITORIO EN GITHUB
+# - Ve a https://github.com/ y haz login.
+# - Haz clic en "+" (arriba a la derecha) > "New repository".
+# - Llena los campos:
+#     Owner: tu usuario
+#     Repository name: comanda-backend (o el que prefieras)
+#     Description: (opcional)
+#     Visibility: Public (recomendado)
+# - NO marques ninguna casilla de inicialización (NO README, NO .gitignore, NO license).
+# - Haz clic en "Create repository".
+
+# 8. ENLAZAR TU PROYECTO LOCAL CON GITHUB
+# - Copia la URL que te da GitHub, por ejemplo:
+#     https://github.com/hansblancoflores/comanda-backend.git
+# - En la terminal, enlaza tu carpeta local con el repositorio remoto:
+      git remote add origin https://github.com/hansblancoflores/comanda-backend.git
+#   Si ves el error:
+#      error: remote origin already exists.
+#   Solución: ya está enlazado, puedes continuar.
+
+# 9. CAMBIAR EL NOMBRE DE LA RAMA PRINCIPAL A MAIN
+      git branch -M main
+
+# 10. SUBIR TU PROYECTO A GITHUB
+      git push -u origin main
+#   Si es la primera vez, Git abrirá el navegador para que autorices con Git Credential Manager.
+#   - Haz clic en "Authorize" en la ventana del navegador.
+#   - Si ves un error como "No se puede acceder a este sitio web 127.0.0.1", ignóralo, es normal.
+#   - Vuelve a la terminal y espera a que termine el proceso.
+
+# 11. ERRORES FRECUENTES Y SOLUCIONES
+
+# - error: src refspec main does not match any
+#   Motivo: No has hecho ningún commit, la rama main no existe.
+#   Solución: Ejecuta git add . y git commit -m "Primer commit" antes de hacer push.
+
+# - error: remote origin already exists.
+#   Motivo: Ya enlazaste el repositorio remoto.
+#   Solución: Ignora el error y continúa.
+
+# - Author identity unknown / unable to auto-detect email address
+#   Motivo: No has configurado tu nombre y correo en Git.
+#   Solución: Ejecuta:
+#      git config --global user.name "Tu Nombre Completo"
+#      git config --global user.email "tunombre@correo.com"
+#   Luego repite git commit -m "Primer commit".
+
+# - "No se puede acceder a este sitio web 127.0.0.1 ha rechazado la conexión"
+#   Motivo: Git Credential Manager terminó el proceso de autorización.
+#   Solución: Ignora el error, vuelve a la terminal y verifica que el push continúe.
+
+# 12. VERIFICAR QUE LOS ARCHIVOS SE SUBIERON
+# - Ve a tu repositorio en GitHub (ejemplo: https://github.com/hansblancoflores/comanda-backend)
+# - Debes ver todos tus archivos ahí.
+
+#########################################################
+# FIN DE LA GUÍA DE SUBIDA A GITHUB
+#########################################################
