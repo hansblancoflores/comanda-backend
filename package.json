@@ -7,7 +7,7 @@
     "start": "node index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Hans Blanco Flores",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
